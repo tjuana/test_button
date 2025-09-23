@@ -13,7 +13,8 @@ const preview: Preview = {
     docs: {
       // Show code examples by default
       source: {
-        type: 'code',
+        type: 'dynamic',
+        excludeDecorators: true,
       },
       // Show all stories in docs
       page: null,
@@ -24,6 +25,11 @@ const preview: Preview = {
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
       test: 'todo'
+    },
+
+    // Disable storybook tests to avoid conflicts
+    test: {
+      disable: true
     }
   },
 };

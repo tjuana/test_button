@@ -55,6 +55,9 @@ export const Primary: Story = {
       description: {
         story: 'The primary button variant - use for main actions like Submit, Save, etc.',
       },
+      source: {
+        code: `<Button variant="primary">Button</Button>`,
+      },
     },
   },
 }
@@ -144,6 +147,9 @@ export const Loading: Story = {
     docs: {
       description: {
         story: 'Loading state shows only a spinner (UX best practice). The original text is hidden but remains in DOM for screen readers.',
+      },
+      source: {
+        code: `<Button loading>Submit</Button>`,
       },
     },
   },
