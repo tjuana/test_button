@@ -96,7 +96,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: storybook-static
-          name: storybook-static
 
       - name: Deploy to GitHub Pages
         id: deployment
