@@ -8,22 +8,35 @@ const meta: Meta<typeof Button> = {
   component: Button,
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component: 'A modern React Button component with loading states, multiple variants, and comprehensive accessibility features. Follows UX best practices for loading states (spinner only, no visible text).',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
     variant: {
       control: { type: 'select' },
       options: ['primary', 'secondary', 'outline', 'ghost', 'destructive'],
+      description: 'Visual style variant of the button',
     },
     size: {
       control: { type: 'select' },
       options: ['sm', 'md', 'lg'],
+      description: 'Size of the button',
     },
     loading: {
       control: { type: 'boolean' },
+      description: 'Shows loading spinner and disables the button',
     },
     disabled: {
       control: { type: 'boolean' },
+      description: 'Disables the button',
+    },
+    loadingText: {
+      control: { type: 'text' },
+      description: 'Text for screen readers when loading (sr-only)',
     },
   },
 }
@@ -36,6 +49,13 @@ export const Primary: Story = {
   args: {
     children: 'Button',
     variant: 'primary',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'The primary button variant - use for main actions like Submit, Save, etc.',
+      },
+    },
   },
 }
 
@@ -119,6 +139,13 @@ export const Loading: Story = {
   args: {
     children: 'Submit',
     loading: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Loading state shows only a spinner (UX best practice). The original text is hidden but remains in DOM for screen readers.',
+      },
+    },
   },
 }
 
