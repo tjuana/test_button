@@ -25,7 +25,36 @@ npm run test
 
 # Run tests with UI
 npm run test:ui
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
+
+## GitHub Pages Deployment
+
+This project is configured for automatic deployment to GitHub Pages:
+
+1. **Enable GitHub Pages** in repository settings:
+   - Go to Settings → Pages
+   - Source: "GitHub Actions"
+
+2. **Push to main branch** - the workflow will automatically:
+   - Run tests and linting
+   - Build the project
+   - Deploy to GitHub Pages
+
+3. **Access your demo** at:
+   - `https://yourusername.github.io/test-button/`
+
+The deployment workflow includes:
+- ✅ Type checking
+- ✅ Linting
+- ✅ Testing (13 tests)
+- ✅ Production build
+- ✅ SPA routing support
 
 ## Usage
 
