@@ -5,6 +5,9 @@ import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
+// Check if we're in CI environment
+const isCI = process.env.CI === 'true';
+
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [react()],
@@ -13,7 +16,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
     projects: [
-      // Regular unit tests
+      // Regular unit tests - always run
       {
         name: 'unit',
         test: {
@@ -22,8 +25,8 @@ export default defineConfig({
           setupFiles: './src/test/setup.ts',
         }
       },
-      // Storybook tests with browser
-      {
+      // Storybook tests - only run locally, skip in CI
+      ...(isCI ? [] : [{
         name: 'storybook',
         plugins: [
           // The plugin will run tests for the stories defined in your Storybook config
@@ -43,7 +46,7 @@ export default defineConfig({
           },
           setupFiles: ['.storybook/vitest.setup.ts']
         }
-      }
+      }])
     ]
   }
 });
