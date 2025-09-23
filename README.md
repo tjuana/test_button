@@ -1,69 +1,111 @@
-# Button Component with Loading State
+# Button Component Library
 
-A modern React Button component with loading state functionality, built with TypeScript, Tailwind CSS, and comprehensive testing.
+A modern React Button component library with comprehensive Storybook documentation, built with TypeScript, Tailwind CSS, and extensive testing.
 
-## Features
+## 🚀 Live Demo
 
-- ✅ **Loading State**: Spinner with smooth animation
-- ✅ **Accessibility**: ARIA attributes for screen readers
-- ✅ **Responsive**: Multiple sizes and variants
-- ✅ **Icon Support**: Left and right icons
-- ✅ **TypeScript**: Full type safety
-- ✅ **Testing**: Comprehensive test suite with Vitest
+**Storybook Documentation**: https://tjuana.github.io/test_button
 
-## Quick Start
+## ✨ Features
+
+- ✅ **27 Storybook Stories** - Complete component showcase
+- ✅ **Loading State** - Spinner with smooth animation (UX best practices)
+- ✅ **Accessibility** - ARIA attributes for screen readers
+- ✅ **5 Variants** - primary, secondary, outline, ghost, destructive
+- ✅ **3 Sizes** - sm, md, lg
+- ✅ **Icon Support** - Left and right icons
+- ✅ **TypeScript** - Full type safety
+- ✅ **45 Tests** - Comprehensive test coverage
+- ✅ **CI/CD** - Automated deployment to GitHub Pages
+
+## 🛠️ Development
 
 ```bash
 # Install dependencies
 npm install
 
-# Start development server
+# Start Storybook (recommended for development)
+npm run storybook
+
+# Start Vite dev server
 npm run dev
 
-# Run tests
-npm run test
+# Run all tests
+npm run test:run
 
 # Run tests with UI
 npm run test:ui
 
-# Build for production
-npm run build
+# Type checking
+npm run type-check
 
-# Preview production build
-npm run preview
+# Linting
+npm run lint
+
+# Build Storybook for production
+npm run build-storybook
 ```
 
-## GitHub Pages Deployment
+## 🚀 Deployment
 
-This project is configured for automatic deployment to GitHub Pages:
+### GitHub Pages (Automatic)
+
+This project automatically deploys to GitHub Pages on every push to `main`:
 
 1. **Enable GitHub Pages** in repository settings:
    - Go to Settings → Pages
    - Source: "GitHub Actions"
 
-2. **Push to main branch** - the workflow will automatically:
-   - Run tests and linting
-   - Build the project
+2. **Push to main branch** - the CI/CD pipeline will:
+   - Run quality checks (type-check, lint, tests)
+   - Build Storybook
    - Deploy to GitHub Pages
 
-3. **Access your demo** at:
-   - `https://yourusername.github.io/test-button/`
+3. **Access your Storybook** at:
+   - **Live Demo**: https://tjuana.github.io/test_button
 
-The deployment workflow includes:
-- ✅ Type checking
-- ✅ Linting
-- ✅ Testing (13 tests)
-- ✅ Production build
-- ✅ SPA routing support
+### CI/CD Pipeline Features
 
-## Usage
+- ✅ **Quality Checks**: TypeScript, ESLint, 45 tests
+- ✅ **Storybook Build**: Complete component documentation
+- ✅ **Automatic Deployment**: GitHub Pages integration
+- ✅ **SPA Routing**: 404.html for proper navigation
+- ✅ **Environment Management**: github-pages environment
+
+## 📖 Storybook Stories
+
+The component library includes **27 comprehensive stories**:
+
+### Basic Variants
+- Primary, Secondary, Outline, Ghost, Destructive
+
+### Sizes
+- Small, Medium, Large
+- Loading states for each size
+
+### Loading States
+- Loading (spinner only - UX best practice)
+- Loading with different variants
+- Loading with icons
+- Disabled loading
+
+### Icon Support
+- Left icon, Right icon, Both icons
+- Loading with icons
+
+### Interactive Examples
+- Interactive demo with async actions
+- Normal vs Loading comparison
+- All variants showcase
+
+## 💻 Usage
 
 ```tsx
 import { Button } from './src/shared/ui/Button'
 
 // Basic usage
 <Button loading={isLoading} onClick={handleClick}>
-  {isLoading ? 'Processing...' : 'Submit'}
+  Submit
 </Button>
 
 // With icons
@@ -78,6 +120,11 @@ import { Button } from './src/shared/ui/Button'
 // Different variants and sizes
 <Button variant="destructive" size="lg" loading={isDeleting}>
   Delete Item
+</Button>
+
+// With loading text for screen readers
+<Button loading loadingText="Processing your request...">
+  Submit
 </Button>
 ```
 
