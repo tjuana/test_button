@@ -65,6 +65,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {loading && loadingText && (
           <span className="sr-only">{loadingText}</span>
         )}
+        
+        {/* Fallback screen reader text when no loadingText provided */}
+        {loading && !loadingText && (
+          <span className="sr-only">Loading...</span>
+        )}
       </button>
     )
   }

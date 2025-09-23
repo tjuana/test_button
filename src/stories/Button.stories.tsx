@@ -89,21 +89,39 @@ export const Large: Story = {
   },
 }
 
-// Loading states
-export const Loading: Story = {
+// Loading sizes
+export const LoadingSmall: Story = {
   args: {
-    children: 'Loading...',
+    children: 'Small Loading',
+    size: 'sm',
     loading: true,
   },
 }
 
-export const LoadingWithText: Story = {
+export const LoadingMedium: Story = {
+  args: {
+    children: 'Medium Loading',
+    size: 'md',
+    loading: true,
+  },
+}
+
+export const LoadingLarge: Story = {
+  args: {
+    children: 'Large Loading',
+    size: 'lg',
+    loading: true,
+  },
+}
+
+// Loading states
+export const Loading: Story = {
   args: {
     children: 'Submit',
     loading: true,
-    loadingText: 'Processing your request...',
   },
 }
+
 
 export const LoadingSecondary: Story = {
   args: {
@@ -113,14 +131,30 @@ export const LoadingSecondary: Story = {
   },
 }
 
+export const LoadingOutline: Story = {
+  args: {
+    children: 'Cancel',
+    variant: 'outline',
+    loading: true,
+  },
+}
+
+export const LoadingGhost: Story = {
+  args: {
+    children: 'Skip',
+    variant: 'ghost',
+    loading: true,
+  },
+}
+
 export const LoadingDestructive: Story = {
   args: {
     children: 'Delete',
     variant: 'destructive',
     loading: true,
-    loadingText: 'Deleting item...',
   },
 }
+
 
 // With icons
 export const WithLeftIcon: Story = {
@@ -152,7 +186,6 @@ export const LoadingWithIcons: Story = {
     leftIcon: <Download className="h-4 w-4" />,
     rightIcon: <Heart className="h-4 w-4" />,
     loading: true,
-    loadingText: 'Downloading file...',
   },
 }
 
@@ -189,7 +222,7 @@ export const Reset: Story = {
 
 // Interactive demo
 export const Interactive: Story = {
-  render: () => {
+  render: function InteractiveDemo() {
     const [loading, setLoading] = React.useState(false)
     
     const handleClick = async () => {
@@ -203,9 +236,8 @@ export const Interactive: Story = {
         <Button 
           onClick={handleClick}
           loading={loading}
-          loadingText="Processing request..."
         >
-          {loading ? 'Processing...' : 'Start Async Action'}
+          Start Async Action
         </Button>
         
         <div className="text-sm text-gray-600">
@@ -216,6 +248,29 @@ export const Interactive: Story = {
   },
 }
 
+// Comparison: Normal vs Loading
+export const NormalVsLoading: Story = {
+  render: () => (
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <h3 className="text-sm font-medium">Normal State</h3>
+        <Button>Submit Form</Button>
+      </div>
+      
+      <div className="space-y-2">
+        <h3 className="text-sm font-medium">Loading State</h3>
+        <Button loading>
+          Submit Form
+        </Button>
+      </div>
+      
+      <div className="text-sm text-gray-600">
+        Notice how the loading button shows a spinner instead of text
+      </div>
+    </div>
+  ),
+}
+
 // All variants showcase
 export const AllVariants: Story = {
   render: () => (
@@ -224,16 +279,16 @@ export const AllVariants: Story = {
         <div key={variant} className="space-y-3">
           <h3 className="text-sm font-medium capitalize text-gray-700">{variant}</h3>
           <div className="space-y-2 flex flex-col">
-            <Button variant={variant as any} size="sm">
+            <Button variant={variant as 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive'} size="sm">
               Small {variant}
             </Button>
-            <Button variant={variant as any} size="md">
+            <Button variant={variant as 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive'} size="md">
               Medium {variant}
             </Button>
-            <Button variant={variant as any} size="lg">
+            <Button variant={variant as 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive'} size="lg">
               Large {variant}
             </Button>
-            <Button variant={variant as any} loading>
+            <Button variant={variant as 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive'} loading>
               Loading {variant}
             </Button>
           </div>
