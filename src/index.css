@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .animate-spin-slow {
+    animation: spin 1s linear infinite;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .animate-spin-slow {
+      animation: none;
+    }
+  }
+}
+
+/* Custom styles for the demo app */
+code {
+  @apply bg-gray-100 px-1 py-0.5 rounded text-sm font-mono;
+}
