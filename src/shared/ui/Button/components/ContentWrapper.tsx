@@ -16,7 +16,7 @@ export const ContentWrapper: React.FC<ContentWrapperProps> = ({
   size, 
   loading 
 }) => (
-  <span className={`flex items-center gap-2 ${loading ? 'opacity-0' : 'opacity-100'}`}>
+  <span className="flex items-center gap-2">
     {leftIcon && <IconWrapper size={size}>{leftIcon}</IconWrapper>}
     {children}
     {rightIcon && <IconWrapper size={size}>{rightIcon}</IconWrapper>}

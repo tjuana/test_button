@@ -9,6 +9,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   loading?: boolean
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
+  loadingText?: string
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -22,6 +23,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       rightIcon,
       children,
       disabled,
+      type = 'button',
+      loadingText,
       ...props
     },
     ref
@@ -30,25 +33,39 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     
     return (
       <button
-        className={buildButtonClasses(variant, size, className)}
+        type={type}
+        className={buildButtonClasses(variant, size, className) + ' relative'}
         disabled={isDisabled}
         aria-busy={loading ? 'true' : undefined}
-        aria-live={loading ? 'polite' : undefined}
         ref={ref}
         {...props}
       >
-        <div className="relative flex items-center justify-center w-full">
+        {/* Content wrapper - hidden when loading but stays in DOM for screen readers */}
+        <span 
+          aria-hidden={loading ? 'true' : undefined} 
+          className={loading ? 'opacity-0' : ''}
+        >
           <ContentWrapper
             leftIcon={leftIcon}
             rightIcon={rightIcon}
             size={size}
-            loading={loading}
+            loading={false} // Always show content in this span
           >
             {children}
           </ContentWrapper>
-          
-          {loading && <LoadingSpinner size={size} />}
-        </div>
+        </span>
+        
+        {/* Loading spinner - absolutely centered */}
+        {loading && (
+          <span className="absolute inset-0 grid place-items-center">
+            <LoadingSpinner size={size} aria-hidden="true" />
+          </span>
+        )}
+        
+        {/* Screen reader only loading text */}
+        {loading && loadingText && (
+          <span className="sr-only">{loadingText}</span>
+        )}
       </button>
     )
   }
