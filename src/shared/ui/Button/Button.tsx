@@ -49,7 +49,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             leftIcon={leftIcon}
             rightIcon={rightIcon}
             size={size}
-            loading={false} // Always show content in this span
           >
             {children}
           </ContentWrapper>

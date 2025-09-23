@@ -6,7 +6,6 @@ interface ContentWrapperProps {
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
   size: 'sm' | 'md' | 'lg'
-  loading: boolean
 }
 
 export const ContentWrapper: React.FC<ContentWrapperProps> = ({ 
@@ -14,7 +13,6 @@ export const ContentWrapper: React.FC<ContentWrapperProps> = ({
   leftIcon, 
   rightIcon, 
   size, 
-  loading 
 }) => (
   <span className="flex items-center gap-2">
     {leftIcon && <IconWrapper size={size}>{leftIcon}</IconWrapper>}

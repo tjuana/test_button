@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
+import { expect, vi } from 'vitest'
 import Button from './Button'
 
 describe('Button', () => {
@@ -13,9 +13,9 @@ describe('Button', () => {
   it('hides text and shows spinner when loading', () => {
     render(<Button loading>Click me</Button>)
     
-    // Text should be hidden (opacity-0)
-    const textElement = screen.getByText('Click me')
-    expect(textElement).toHaveClass('opacity-0')
+    // Content wrapper should be hidden (opacity-0)
+    const contentWrapper = screen.getByText('Click me').closest('span[aria-hidden="true"]')
+    expect(contentWrapper).toHaveClass('opacity-0')
     
     // Spinner should be visible
     const spinner = screen.getByRole('button').querySelector('svg')
@@ -28,18 +28,16 @@ describe('Button', () => {
     expect(screen.getByRole('button')).toBeDisabled()
   })
 
-  it('adds aria-busy and aria-live when loading', () => {
+  it('adds aria-busy when loading', () => {
     render(<Button loading>Click me</Button>)
     const button = screen.getByRole('button')
     expect(button).toHaveAttribute('aria-busy', 'true')
-    expect(button).toHaveAttribute('aria-live', 'polite')
   })
 
-  it('does not have aria-busy and aria-live when not loading', () => {
+  it('does not have aria-busy when not loading', () => {
     render(<Button>Click me</Button>)
     const button = screen.getByRole('button')
     expect(button).not.toHaveAttribute('aria-busy')
-    expect(button).not.toHaveAttribute('aria-live')
   })
 
   it('keeps size/variant classes intact', () => {
@@ -170,5 +168,37 @@ describe('Button', () => {
     
     await user.click(screen.getByRole('button'))
     expect(handleClick).not.toHaveBeenCalled()
+  })
+
+  it('defaults to type="button"', () => {
+    render(<Button>Click me</Button>)
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'button')
+  })
+
+  it('allows custom type', () => {
+    render(<Button type="submit">Submit</Button>)
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'submit')
+  })
+
+  it('shows loading text for screen readers when provided', () => {
+    render(<Button loading loadingText="Processing request">Click me</Button>)
+    
+    const loadingText = screen.getByText('Processing request')
+    expect(loadingText).toBeInTheDocument()
+    expect(loadingText).toHaveClass('sr-only')
+  })
+
+  it('hides spinner from screen readers', () => {
+    render(<Button loading>Click me</Button>)
+    
+    const spinner = screen.getByRole('button').querySelector('svg')
+    expect(spinner).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('hides content from screen readers when loading', () => {
+    render(<Button loading>Click me</Button>)
+    
+    const contentWrapper = screen.getByText('Click me').closest('span[aria-hidden="true"]')
+    expect(contentWrapper).toHaveAttribute('aria-hidden', 'true')
   })
 })
