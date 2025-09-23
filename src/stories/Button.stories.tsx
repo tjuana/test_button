@@ -1,7 +1,7 @@
 import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Button } from '../shared/ui/Button'
-import { Download, Heart, Trash2, Loader2 } from 'lucide-react'
+import { Download, Heart } from 'lucide-react'
 
 const meta: Meta<typeof Button> = {
   title: 'UI/Button',
