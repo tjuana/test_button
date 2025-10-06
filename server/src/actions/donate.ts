@@ -1,15 +1,8 @@
 import { Router } from 'express'
-import { z } from 'zod'
 import { Connection, PublicKey, Transaction, SystemProgram } from '@solana/web3.js'
+import { donateSchema, type DonateRequest } from './schema'
 
 const actionsRouter = Router()
-
-// Validation schema for POST request
-const donateSchema = z.object({
-  account: z.string().min(1, 'Account is required'),
-  amount: z.union([z.string(), z.number()]).optional().default('0.01'),
-  to: z.string().optional()
-})
 
 // GET /api/actions/donate - Action metadata
 actionsRouter.get('/donate', (req, res) => {
@@ -32,7 +25,7 @@ actionsRouter.get('/donate', (req, res) => {
 actionsRouter.post('/donate', async (req, res) => {
   try {
     // Validate request body
-    const { account, amount, to } = donateSchema.parse(req.body)
+    const { account, amount, to }: DonateRequest = donateSchema.parse(req.body)
     
     // Get connection and donation address
     const connection = new Connection(process.env.RPC_URL!)
