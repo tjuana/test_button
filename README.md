@@ -1,6 +1,6 @@
-# Button Component Library
+# Button Component Library + Blink Actions
 
-A modern React Button component library with comprehensive Storybook documentation, built with TypeScript, Tailwind CSS, and extensive testing.
+A modern React Button component library with comprehensive Storybook documentation, built with TypeScript, Tailwind CSS, and extensive testing. Now includes **Blink Actions** integration for Solana transactions.
 
 ## 🚀 Live Demo
 
@@ -8,6 +8,7 @@ A modern React Button component library with comprehensive Storybook documentati
 
 ## ✨ Features
 
+### Button Component Library
 - ✅ **27 Storybook Stories** - Complete component showcase
 - ✅ **Loading State** - Spinner with smooth animation (UX best practices)
 - ✅ **Accessibility** - ARIA attributes for screen readers
@@ -18,17 +19,62 @@ A modern React Button component library with comprehensive Storybook documentati
 - ✅ **45 Tests** - Comprehensive test coverage
 - ✅ **CI/CD** - Automated deployment to GitHub Pages
 
+### Blink Actions Integration
+- ✅ **Solana Wallet Integration** - Phantom, Solflare support
+- ✅ **Express Server** - Action endpoints for transaction creation
+- ✅ **BlinkButton Component** - Local and link modes
+- ✅ **Donate Action** - Example SOL donation transaction
+- ✅ **Devnet Support** - Ready for testing
+
 ## 🛠️ Development
 
+### Quick Start (Blink Actions)
+
+1. **Install Phantom Wallet** and enable Devnet:
+   - Install [Phantom](https://phantom.app/) browser extension
+   - Go to Settings → Developer Settings → Change Network → Devnet
+   - Get test SOL from [Solana Faucet](https://faucet.solana.com/)
+
+2. **Setup Environment**:
+   ```bash
+   # Copy environment files
+   cp server/.env.example server/.env
+   cp .env.example .env
+   
+   # Edit server/.env and set your DONATION_ADDRESS
+   # (your Phantom wallet address on devnet)
+   ```
+
+3. **Install and Run**:
+   ```bash
+   # Install dependencies
+   npm install
+   
+   # Start both client and server
+   npm run dev
+   ```
+
+4. **Test Blink Actions**:
+   - Open http://localhost:5173 (или 5174, если 5173 занят)
+   - Click "Connect" to connect your wallet
+   - **Get test SOL**: Go to [Solana Faucet](https://faucet.solana.com/) and request SOL for your wallet
+   - Click "Donate 0.01 SOL (Local)" to test local transaction
+   - Click "Open Blink Link" to test Action URL
+
+### Development Commands
+
 ```bash
-# Install dependencies
-npm install
-
-# Start Storybook (recommended for development)
-npm run storybook
-
-# Start Vite dev server
+# Start both client and server
 npm run dev
+
+# Start only client (Vite)
+npm run dev:client
+
+# Start only server (Express)
+npm run dev:server
+
+# Start Storybook (recommended for component development)
+npm run storybook
 
 # Run all tests
 npm run test:run
@@ -183,6 +229,53 @@ src/
 └── App.tsx                     # Demo application
 ```
 
+## Blink Actions
+
+This project includes a complete Blink Actions implementation for Solana:
+
+### Server Endpoints
+
+- `GET /health` - Health check
+- `GET /api/actions/donate` - Action metadata
+- `POST /api/actions/donate` - Create unsigned transaction
+
+### Client Components
+
+- `BlinkButton` - Component with local and link modes
+- `actionsClient` - Utilities for transaction creation and sending
+
+### Usage Example
+
+```tsx
+import { BlinkButton } from './src/features/blink/BlinkButton'
+
+// Local mode - creates transaction via POST and signs with wallet
+<BlinkButton action="donate" amount="0.01" mode="local">
+  Donate 0.01 SOL (Local)
+</BlinkButton>
+
+// Link mode - opens Blink Action URL
+<BlinkButton action="donate" amount="0.01" mode="link">
+  Open Blink Link
+</BlinkButton>
+```
+
+### Environment Variables
+
+**Client (.env)**:
+```
+VITE_SOLANA_RPC=https://api.devnet.solana.com
+VITE_ACTION_BASE_URL=http://localhost:8787
+```
+
+**Server (server/.env)**:
+```
+PORT=8787
+RPC_URL=https://api.devnet.solana.com
+DONATION_ADDRESS=<YOUR_DEVNET_ADDRESS>
+ACTION_BASE_URL=http://localhost:8787
+```
+
 ## Technologies
 
 - **React 19** - UI library
@@ -191,3 +284,6 @@ src/
 - **Vitest** - Testing framework
 - **Testing Library** - Component testing
 - **Lucide React** - Icons
+- **Express** - Action server
+- **Solana Web3.js** - Blockchain integration
+- **@solana/wallet-adapter** - Wallet integration
