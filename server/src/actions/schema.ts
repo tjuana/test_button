@@ -7,8 +7,16 @@ export const baseActionSchema = z.object({
 
 // Donate action schema
 export const donateSchema = baseActionSchema.extend({
-  amount: z.union([z.string(), z.number()]).optional().default('0.01'),
-  to: z.string().optional()
+  amount: z.union([z.string(), z.number()])
+    .transform(val => Number(val))
+    .refine(val => val > 0, 'Amount must be greater than 0')
+    .refine(val => val <= 1000, 'Amount too large (max 1000 SOL)')
+    .optional()
+    .default(0.01),
+  to: z.string()
+    .min(32, 'Invalid Solana address length')
+    .max(44, 'Invalid Solana address length')
+    .optional()
 })
 
 // Future action schemas can be added here

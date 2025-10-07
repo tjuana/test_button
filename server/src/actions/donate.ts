@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { Connection, PublicKey, Transaction, SystemProgram } from '@solana/web3.js'
+import { z } from 'zod'
 import { donateSchema, type DonateRequest } from './schema'
 
 const actionsRouter = Router()
@@ -36,6 +37,17 @@ actionsRouter.post('/donate', async (req, res) => {
         error: 'Donation address not configured. Please set DONATION_ADDRESS in environment variables.' 
       })
     }
+
+    // Validate Solana addresses
+    try {
+      new PublicKey(account)
+      new PublicKey(donationAddress)
+    } catch (addressError) {
+      return res.status(400).json({
+        error: 'Invalid Solana address',
+        message: 'Please provide valid Solana public keys'
+      })
+    }
     
     // Get latest blockhash
     const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash()
@@ -43,11 +55,14 @@ actionsRouter.post('/donate', async (req, res) => {
     // Create transaction
     const tx = new Transaction({
       feePayer: new PublicKey(account),
-      recentBlockhash: blockhash
+      blockhash,
+      lastValidBlockHeight
     })
     
+    // Convert amount to lamports (Zod already validated the amount)
+    const lamports = Math.round(amount * 1e9)
+    
     // Add transfer instruction
-    const lamports = Math.round(Number(amount) * 1e9)
     tx.add(
       SystemProgram.transfer({
         fromPubkey: new PublicKey(account),
@@ -67,7 +82,7 @@ actionsRouter.post('/donate', async (req, res) => {
     res.json({
       transaction: base64,
       message: 'Donate via Action',
-      amount: Number(amount),
+      amount,
       to: donationAddress
     })
     
@@ -77,7 +92,10 @@ actionsRouter.post('/donate', async (req, res) => {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ 
         error: 'Validation error', 
-        details: error.errors 
+        details: error.errors.map(err => ({
+          field: err.path.join('.'),
+          message: err.message
+        }))
       })
     }
     
